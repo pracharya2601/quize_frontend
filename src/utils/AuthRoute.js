@@ -17,7 +17,6 @@ export const CheckOpenRoute = ({component: Component, ...rest}) => {
 
 export const ProtectedRoute = ({component: Component, ...rest}) => {
     const {isSignedIn} = useContext(Authcontext);
-    console.log(isSignedIn)
     return(
         <Route
             {...rest}

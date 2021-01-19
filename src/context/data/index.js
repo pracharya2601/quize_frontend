@@ -1,27 +1,74 @@
 import {useState, useEffect, useReducer} from 'react';
 import Datacontext from './data';
 import axios from 'axios';
-import {dataReducer} from './dataReducer';
-
-import { PLAY_QUIZE, GET_SINGLE_QUIZE, SUBMIT_ANSWER } from "./types";
+import {dataReducer, initialState} from './dataReducer';
+import {
+    playquizes,
+    getsinglequize,
+    submitanswer,
+    clearmessage,
+    clearerror, 
+    error} from './actionCreaters';
 
 const API = process.env.REACT_APP_API_ENDPOINT
 
-const initialState = {
-    history : [
-        {id: '1', date: '3434333', point: '3', status: 'correct answer'},
-        {id: '2', date: '3434333', point: '4', status: 'correct answer'},
-        {id: '3', date: '3434333', point: '5', status: 'correct answer'},
-    ],
-    loading: false,
-    error: false,
-}
 
 const DataProvider = ({children}) => {
     const [state, dispatch] = useReducer(dataReducer, initialState);
+
+    const playQuize = () => {
+        axios.get(`${API}/quize/play_quize`, {withCredentials: true})
+            .then(({data}) => {
+                dispatch(playquizes(data));
+            }).catch((e) =>{
+                dispatch(error(e));
+            })
+    }
+
+    const getSingleQuestion = () => {
+        const singleSlug = state.quizes[0];
+        console.log(singleSlug);
+        axios.get(`${API}/quize/play_quize/${singleSlug}`, {withCredentials: true})
+        .then(({data}) => {
+            dispatch(getsinglequize(data));
+        }).catch((e) =>{
+            dispatch(error(e));
+        })
+    }
+    const submitAnswer = (answer) => {
+        console.log(state.quizeID);
+        axios.post(`${API}/quize/play_quize/${state.quizeID}`, {ans: answer}, {withCredentials: true})
+        .then(({data}) => {
+            dispatch(submitanswer(data));
+        }).catch((e) => {
+            dispatch(error(e))
+        })
+    }
+
+    //clear message
+    const clearMessage = () => {
+        console.log("Clear message");
+        dispatch(clearmessage({message: ''}))
+    }
+
+    const clearError = () => {
+        console.log("clear error")
+        dispatch(clearerror({error: ''}))
+    }
+
+    //clear error
+
     return(
         <Datacontext.Provider
-            value={{state, dispatch}}
+            value={{
+                state, 
+                dispatch,
+                playQuize,
+                getSingleQuestion,
+                submitAnswer,
+                clearMessage,
+                clearError,
+            }}
         >
             {children}
         </Datacontext.Provider>

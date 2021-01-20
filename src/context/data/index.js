@@ -6,6 +6,8 @@ import {
     playquizes,
     getsinglequize,
     submitanswer,
+    getpoints,
+    getpoinsthistory,
     clearmessage,
     clearerror, 
     error} from './actionCreaters';
@@ -45,6 +47,28 @@ const DataProvider = ({children}) => {
         })
     }
 
+    const getPoints = () => {
+        axios.get(`${API}/points/available`, {withCredentials: true})
+        .then(({data}) => {
+            console.log(data);
+            dispatch(getpoints(data))
+        })
+        .catch((e) => {
+            dispatch(error(e));
+        })
+    }
+
+    const getPointsHistory =(historySlug) => {
+        //getpoinsthistory
+        axios.get(`${API}/points/${historySlug}`, {withCredentials: true})
+        .then(({data}) => {
+            dispatch(getpoinsthistory(data))
+        })
+        .catch((e) => {
+            dispatch(error(e));
+        })
+    }
+
     //clear message
     const clearMessage = () => {
         console.log("Clear message");
@@ -68,6 +92,8 @@ const DataProvider = ({children}) => {
                 submitAnswer,
                 clearMessage,
                 clearError,
+                getPoints,
+                getPointsHistory,
             }}
         >
             {children}

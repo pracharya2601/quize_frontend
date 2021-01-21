@@ -18,6 +18,7 @@ const Dashboard = (props) => {
         <div>
             <h1>Dashboard</h1>
             <button onClick={handleSignout}>Logout</button>
+            <button onClick={() => history.push('/dashboard/cart')}>Cart</button>
             <hr />
             <PointsContainer />
             <button onClick={() => history.push('/dashboard/play')} disabled={!user.playAccess}>Get started</button>

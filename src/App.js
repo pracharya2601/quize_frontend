@@ -14,6 +14,7 @@ import {CheckOpenRoute, ProtectedRoute} from 'utils/AuthRoute';
 const Home = lazy(() => import('pages/index'));
 //dashboard
 const Dashboard = lazy(() => import('pages/dashboard/Dashboard'));
+const Cart = lazy(() => import('pages/cart/Cart'));
 const Quize = lazy(() => import ('pages/quize/Quize'));
 //point 
 const Points = lazy(() => import('pages/points/Points'));
@@ -35,6 +36,7 @@ function App() {
             <CheckOpenRoute path="/" exact component={Home} />
             <ProtectedRoute path="/dashboard" exact component={Dashboard} />
             <ProtectedRoute path="/dashboard/play" exact component={Quize} />
+            <ProtectedRoute path="/dashboard/cart" exact component={Cart} />
             <ProtectedRoute path="/points/list" exact component={Points} />
             <ProtectedRoute path="/points/history/:historySlug" exact component={PointHistory}/>
             <CheckOpenRoute path="/auth/signin" exact component={Signin}/>

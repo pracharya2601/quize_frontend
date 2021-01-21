@@ -1,41 +1,72 @@
-import React, {useEffect, useContext} from 'react';
-import axios from 'axios'
+import React, {useState, useEffect, useContext} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import Datacontext from 'context/data/data';
-import {pointforpurchase, error} from 'context/data/actionCreaters';
+import {addtocart} from 'context/data/actionCreaters';
 
-const API = process.env.REACT_APP_API_ENDPOINT
+const INCREMENT = "INCREMENT";
+const DECREMENT = "DECREMENT";
 
 const Points = (props) => {
+    const [point, setPoint] = useState(0);
+    const [amount, setAmount] = useState(0);
     const {state, dispatch} = useContext(Datacontext);
 
     useEffect(() => {
         let mounted = true;
-        axios.get(`${API}/points`, {withCredentials: true})
-        .then(({data}) => {
-            dispatch(pointforpurchase(data));
-        }).catch((e) =>{
-            dispatch(error(e));
-        })
+        if(amount < 5) {
+            onChangeHandle(5)
+        }
         return function cleanup() {
             mounted = false
         }
         
-    }, []);
-    const {pointsForPurchase} = state;
-    console.log(pointsForPurchase)
+    }, [amount]);
+
+    const onChangeHandle = (amt) => {
+        setAmount(amt);
+        setPoint(amt * 50)
+    }
+    const onClickHandle = (type, val) => {
+        if(type === INCREMENT) {
+            onChangeHandle(val + 1)
+        } else {
+            onChangeHandle(val - 1)
+        }
+    }
+    const addToCartHandle = () => {
+        let date = new Date().toISOString()
+        let id = date.replace(/[.,:-]/g,"")
+        let data = {
+            point: point,
+            amount: amount,
+            date: date,
+            id: id
+        }
+        dispatch(addtocart(data));
+    }
+
     return (
         <div>
             <Link to={'/dashboard'}>Back to Dashboard</Link>
+            <br />
+            <Link to={'/dashboard/cart'}>Cart</Link>
             <div>
-            {pointsForPurchase.map((item) => (
-                    <div key={item.id} style={{padding: '10px', border: '1px solid green', borderRadius: '10px', width: 'max-content'}}>
-                        <h4>{item.name}</h4>
-                        <p>Point Value: {item.point}</p>
-                        <p>Point price: {item.price}</p>
-                        <button>Add to cart</button>
+
+                <div style={{padding: '10px', border: '1px solid green', borderRadius: '10px', width: 'max-content'}}>
+                    <h4>Purchase points</h4>
+                    <div>
+                        <label>Amount</label>
+                        <input type="number" name="amount" value={amount} onChange={(e) => onChangeHandle(e.target.value)} min="1" />
                     </div>
-                ))}
+                    <div>
+                        <label>Points</label>
+                        <input type="number" name="point" value={point} disabled />
+                    </div>
+                    <button onClick={() => onClickHandle(INCREMENT, amount)}>Add points</button>
+                    <button onClick={() => onClickHandle(DECREMENT, amount)}>Subtract points</button>
+                    <br/>
+                    <button onClick={addToCartHandle}>Add to Cart</button>
+                </div>
             </div>
         </div>
     )

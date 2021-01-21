@@ -5,7 +5,7 @@ const useTimer = () => {
     const [run, setRun] = useState(true);
     useEffect(() => {
         const timer = setTimeout(() =>{
-            if(timeLeft != 0) {
+            if(timeLeft !== 0) {
                 if(run) {
                     setTimeLeft(timeLeft - 1)
                 } else {

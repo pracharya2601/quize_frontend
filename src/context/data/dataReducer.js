@@ -6,6 +6,9 @@ import {
     POINTS_FOR_PURCHASE,
     GET_POINTS,
     GET_POINTS_HISTORY,
+    ADD_TO_CART, 
+    ADD_ITEM_TO_CART,
+    CHECKOUT,
     ERROR, 
     CLEAR_MESSAGE, 
     CLEAR_ERROR 
@@ -24,6 +27,7 @@ export const initialState = {
        purchasedPoints: 0,
        usedPoints: 0,
     },
+    cart: {},
     submitMessage: '',
     error: ''
 }
@@ -55,13 +59,16 @@ export const dataReducer = (state, action) => {
             return {...state, points: {
                 ...state.points,
                 availablePoints: action.payload.totalpoints,
-                earnedPoints: action.payload.totalpointsearn,
-                purchasedPoints: action.payload.totalpointspurchase,
-                usedPoints: action.payload.totalpointsused,
+                earnedPoints: action.payload.totalpointearn,
+                purchasedPoints: action.payload.totalpointpurchase,
+                usedPoints: action.payload.totalpointused,
             }}
         };
         case GET_POINTS_HISTORY:
             return {...state, pointsHistory: action.payload};
+        case ADD_TO_CART: 
+            return {...state, cart: action.payload};
+        //case ADD_ITEM_TO_CART//need to workwith database or cookie
         case CLEAR_MESSAGE: 
             return{...state, submitMessage: action.payload.message};
         case CLEAR_ERROR: {

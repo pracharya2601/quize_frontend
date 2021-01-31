@@ -45,6 +45,16 @@ const Points = (props) => {
         dispatch(addtocart(data));
     }
 
+    const purchased = () => {
+        // point: point,
+        // amount: amount,
+        // date: date,
+        // id: id,
+        // token: "sdljfskldjsdk12321",
+        // productName: "Drogon",
+        // productUrl: "http://gameofthrones.com/buy/Dragons",
+    }
+
     return (
         <div>
             <Link to={'/dashboard'}>Back to Dashboard</Link>

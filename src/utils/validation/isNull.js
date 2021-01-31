@@ -1,0 +1,1 @@
+export const isNull = (value) => typeof value === "object" && !value;

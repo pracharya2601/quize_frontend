@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {useHistory } from "react-router-dom";
 import Authcontext from 'context/auth/auth';
 import PointsContainer from 'layout/dashboard/PointsContainer';
+import TicketContainer from 'layout/dashboard/TicketContainer';
 
 const Dashboard = (props) => {
     const {isSignedIn, signOut, user} = useContext(Authcontext);
@@ -23,7 +24,8 @@ const Dashboard = (props) => {
             <PointsContainer />
             <button onClick={() => history.push('/dashboard/play')} disabled={!user.playAccess}>Get started</button>
             <button onClick={() => history.push('/points/list')} disabled={!user.playAccess}>Purchase Points</button>
-            
+            <TicketContainer />
+            <button onClick={() => history.push('/ticket/purchase')} >Get Ticket</button>
         </div>
     )
 }

@@ -6,8 +6,11 @@ import {
     POINTS_FOR_PURCHASE,
     GET_POINTS,
     GET_POINTS_HISTORY,
+    CLEAR_POINT_HISTORY,
     ADD_TO_CART, 
     ADD_ITEM_TO_CART,
+    DELETE_CART_ITEM,
+    PURCHASE_POINT,
     CHECKOUT,
     ERROR, 
     CLEAR_MESSAGE, 
@@ -20,7 +23,10 @@ export const initialState = {
     quize: '',
     options: [],
     pointsForPurchase: [],
-    pointsHistory: [],
+    pointsHistory: {
+        next: null,
+        lists: []
+    },
     points: {
        availablePoints: 0,
        earnedPoints: 0,
@@ -28,6 +34,10 @@ export const initialState = {
        usedPoints: 0,
     },
     cart: {},
+    otherCarts: {
+        itemCounts: 0,
+        itemLists: []
+    },
     submitMessage: '',
     error: ''
 }
@@ -55,20 +65,69 @@ export const dataReducer = (state, action) => {
             };
         case POINTS_FOR_PURCHASE: 
             return {...state, pointsForPurchase: action.payload}
+        case PURCHASE_POINT: 
+            return {
+                ...state,
+                points: {
+                    ...state.points,
+                    availablePoints: state.points.availablePoints + action.payload.point,
+                    purchasedPoints: state.points.purchasedPoints + action.payload.point,
+                }
+            }
         case GET_POINTS: {
-            return {...state, points: {
-                ...state.points,
-                availablePoints: action.payload.totalpoints,
-                earnedPoints: action.payload.totalpointearn,
-                purchasedPoints: action.payload.totalpointpurchase,
-                usedPoints: action.payload.totalpointused,
+            return {
+                ...state, 
+                points: {
+                    ...state.points,
+                    availablePoints: action.payload.totalpoints,
+                    earnedPoints: action.payload.totalpointearn,
+                    purchasedPoints: action.payload.totalpointpurchase,
+                    usedPoints: action.payload.totalpointused,
             }}
         };
         case GET_POINTS_HISTORY:
-            return {...state, pointsHistory: action.payload};
+            let newPointsHistory = action.payload.pointHistory;
+            let statePointsHistory = state.pointsHistory.lists;
+            let updatedLists = statePointsHistory.concat(newPointsHistory)
+            return {
+                ...state, 
+                pointsHistory: {
+                    ...state.pointsHistory,
+                    next: action.payload.nextpage,
+                    lists: updatedLists,
+                }
+            };
+        case CLEAR_POINT_HISTORY: 
+            return {
+                ...state,
+                pointsHistory: {
+                    ...state.pointsHistory,
+                    next: null,
+                    lists: []
+                }
+            }
         case ADD_TO_CART: 
             return {...state, cart: action.payload};
-        //case ADD_ITEM_TO_CART//need to workwith database or cookie
+        case ADD_ITEM_TO_CART: 
+            return {
+                ...state,
+                otherCarts: {
+                    ...state.otherCarts,
+                    itemCounts: action.payload.itemCount,
+                    itemLists: action.payload.itemLists
+                }
+            }
+        case DELETE_CART_ITEM: 
+            const newcount = state.otherCarts.itemLists -1;
+            const newlist = _.reject(state.otherCarts.itemLists, (item) => item.id === action.payload)
+            return {
+                ...state, 
+                otherCarts: {
+                    ...state.otherCarts,
+                    itemCounts:  newcount,
+                    itemLists: newlist,
+                }
+            }
         case CLEAR_MESSAGE: 
             return{...state, submitMessage: action.payload.message};
         case CLEAR_ERROR: {

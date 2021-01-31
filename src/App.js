@@ -19,6 +19,8 @@ const Quize = lazy(() => import ('pages/quize/Quize'));
 //point 
 const Points = lazy(() => import('pages/points/Points'));
 const PointHistory = lazy(() => import('pages/points/PointHistory'))
+//ticket
+const Ticket = lazy(() => import('pages/ticket/Ticket'));
 //auth
 const Signin = lazy(()=> import('pages/auth/Signin'));
 const Signup = lazy(()=> import('pages/auth/Signup'));
@@ -38,6 +40,7 @@ function App() {
             <ProtectedRoute path="/dashboard/play" exact component={Quize} />
             <ProtectedRoute path="/dashboard/cart" exact component={Cart} />
             <ProtectedRoute path="/points/list" exact component={Points} />
+            <ProtectedRoute path="/ticket/purchase" exact component={Ticket} />
             <ProtectedRoute path="/points/history/:historySlug" exact component={PointHistory}/>
             <CheckOpenRoute path="/auth/signin" exact component={Signin}/>
             <CheckOpenRoute path="/auth/signup" exact component={Signup} />

@@ -1,8 +1,12 @@
 import React, {useState, useContext} from 'react';
 import Input from 'components/input';
 import {Link} from "react-router-dom";
-
 import Authcontext from 'context/auth/auth';
+
+import Container from 'components/container';
+import { Box, BoxTitle, BoxText } from 'components/box';
+import Button from 'components/button';
+
 const Signup = (props) => {
     const {signUp, signUpError, clearError} = useContext(Authcontext);
     const [signUpData, setSignUpData] = useState({
@@ -25,8 +29,11 @@ const Signup = (props) => {
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <Container>
+            <Box
+                margin={'auto'} 
+            >
+            <BoxTitle>Signup</BoxTitle>
             <form onSubmit={onHandleSubmit}>
                 <Input 
                     label="Email"
@@ -61,10 +68,15 @@ const Signup = (props) => {
                     onChange={onChangeHandle}
                     errorText={signUpError['name']}
                 />
-                <button>Create Account</button>
+                <Button type="submit">
+                    Create Account
+                </Button>
             </form>
-            <Link to={`/auth/signin`}>Go back to signin page</Link>
-        </div>
+            <Link to={`/auth/signin`}>
+                <BoxText>Go back to signin page</BoxText>
+            </Link>
+            </Box>
+        </Container>
     )
 }
 

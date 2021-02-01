@@ -1,10 +1,17 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import Container from 'components/container';
+import { Box, BoxTitle, BoxText } from 'components/box';
 import Input from 'components/input';
+import Button from 'components/button';
+
 const ResetPassword = (props) => {
     return (
-        <div>
-            <h1>ResetPassword</h1>
+        <Container>
+        <Box
+             margin={'auto'}
+        >
+            <BoxTitle>ResetPassword</BoxTitle>
             <form>
                 <Input 
                     label="Email"
@@ -17,10 +24,15 @@ const ResetPassword = (props) => {
                     //value
                 />
 
-                <button>Reset Password</button>
+                <Button type="submit">
+                    Reset Password
+                </Button>
             </form>
-            <Link to={`/auth/signin`}>Go back to Signin</Link>
-        </div>
+            <Link  to={`/auth/signin`}>
+                        <BoxText>Go back to Signin</BoxText>
+                    </Link>
+        </Box>
+        </Container>
     )
 }
 

@@ -1,4 +1,10 @@
-
+const color = {
+    primary: '',
+    secondary: '',
+    black: '',
+    white: '',
+    default: '',
+}
 export const themeItem = {
     light: {
         body: '#FFF',
@@ -10,10 +16,12 @@ export const themeItem = {
         background: '#363537',
         borderColor: 'black',
         danger: '#eb4034',
-        primary: '#0471c4',
-        default: '#949494',
-        white: 'white',
-        menu: 'teal'
+        primary: '#6495ED',
+        secondary: '#DB8496',
+        default: '#B0B0B0',
+        white: '#F6F7FC',
+        menu: 'teal',
+        sh1: 'rgba(50, 50, 93, 0.25) 0px 2px 5px 0px, rgba(0, 0, 0, 0.3) 0px 1px 3px 0px'
     },
     dark: {
         body: '#363537',
@@ -25,9 +33,11 @@ export const themeItem = {
         background: '#999',
         borderColor: 'black',
         danger: '#eb4034',
-        primary: '#0471c4',
-        default: '#949494',
-        white: 'white',
+        primary: '#6495ED',
+        secondary: '#DB8496',
+        default: '#B0B0B0',
+        white: '#F6F7FC',
         menu: 'teal',
+        sh1: 'rgba(230, 230, 255, 0.25) 0px 2px 5px 0px, rgba(255, 255, 255, 0.3) 0px 1px 3px 0px'
     }
 }

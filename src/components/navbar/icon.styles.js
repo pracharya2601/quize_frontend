@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const Icon = styled.div`
     width: 30px;
     height: 30px;
-
     background-image: url(${props => props.src});
     background-position: center;
     background-size: cover;
@@ -17,9 +16,13 @@ export const IconContainer = styled.div`
     padding: 5px;
     border-radius: 100%;
     background: ${({theme}) => theme.white};
-    border: 1px solid ${({theme}) => theme.text};
     cursor: pointer;
     position: relative;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
 `
 
 export const IconVal = styled.div`
@@ -31,9 +34,9 @@ export const IconVal = styled.div`
     font-size: 0.9rem;
     padding: 3px;
     border-radius: 100%;
-    border: 1px solid ${({theme}) => theme.body};
-    background: ${({theme}) => theme.text};
-    color: ${({theme}) => theme.body}
+    background: ${({theme}) => theme.white};
+    color: ${({theme}) => theme.textblack};
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 `
 
 export const MenuDotContainer = styled.div`
@@ -47,8 +50,9 @@ export const MenuDotContainer = styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 3px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     &:hover {
-        opacity: 0.8;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     }
 `
 

@@ -8,12 +8,12 @@ import {IconContainer, Icon, IconVal, MenuDotContainer, MenuDot} from './icon.st
 import Button from 'components/button'
 
 import cart from 'assets/cart.svg';
+import { BoxTitle } from 'components/box';
 
 const Navbar = props => {
     const [open, setOpen] = useState(false);
     const {isSignedIn, signOut, user} = useContext(Authcontext);
-    const {theme, themeAsset, changeTheme} = useContext(Themecontext);
-
+    const {theme, changeTheme} = useContext(Themecontext);
     const  history = useHistory();
     const handleSignout = () => {
         signOut();
@@ -27,11 +27,11 @@ const Navbar = props => {
 
     return(
             <StyledNavbar>
-                <h2>Dashboard</h2>
+                <BoxTitle>Dashboard</BoxTitle>
 
                 <IconsContainer>
                     <IconContainer onClick={() => history.push('/dashboard/cart')}>
-                        <IconVal>12</IconVal>
+                        <IconVal>{user.cartcount}</IconVal>
                         <Icon src={cart} />
                     </IconContainer>
                     <MenuDotContainer onClick={() => setOpen(!open)}>

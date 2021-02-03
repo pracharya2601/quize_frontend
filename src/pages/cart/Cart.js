@@ -4,6 +4,12 @@ import Datacontext from 'context/data/data';
 import {addtocart,additemtocart, purchasedpoint, deletecartitem, error} from 'context/data/actionCreaters';
 import axios from 'axios';
 
+import Navbar from 'components/navbar';
+import Container from 'components/container';
+import { Box, BoxText, BoxTitle } from 'components/box';
+import Button from 'components/button';
+import Flexbox from 'components/flexbox';
+
 const API = process.env.REACT_APP_API_ENDPOINT
 
 const Cart = (props) => {
@@ -30,7 +36,6 @@ const Cart = (props) => {
         }
         axios.post(`${API}/points/purchased`, data, {withCredentials: true})
         .then(({data}) => {
-            console.log(data.data);
             dispatch(purchasedpoint(data.data));
             history.push('/dashboard');
         }).catch((err) => {
@@ -48,34 +53,41 @@ const Cart = (props) => {
     }
     console.log(state.otherCarts.itemLists)
     return (
-        <div>
+        <Container>
+            <Navbar />
             <Link to={'/dashboard'}>Back to Dashboard</Link>
             {state.cart.point ? (
-                <div
-                style={{padding: '10px', border: '1px solid green', borderRadius: '10px', width: 'max-content'}}
-                >
-                    <h3>Number of points: {state.cart.point}</h3>
+                <Flexbox>
+                    <Box>
+                    <BoxText>Number of points: {state.cart.point}</BoxText>
                     <p>Amount: {state.cart.amount}</p>
-                    <button onClick={purchasePointHandle}>Proceed with Khalti Payment</button>
-                    <button onClick={() => dispatch(addtocart({}))}>Clear Point cart</button>
-                </div>
+                    <Button onClick={purchasePointHandle}>Proceed with Khalti Payment</Button>
+                    <Button onClick={() => dispatch(addtocart({}))}>Clear Point cart</Button>
+                    </Box>
+                </Flexbox>
             ): (
-                <div>
-                    <h5>Not Points added to cart</h5>
-                    <Link to={`/points/list`}><button>Add Point to Cart</button></Link>
-                </div>
+                <Flexbox>
+                    <Box>
+                    <BoxText>Not Points added to cart</BoxText>
+                    <Link to={`/points/list`}><Button>Add Point to Cart</Button></Link>
+                    </Box>
+                </Flexbox>
             )}
+            <Box shadow="sh1">
             {state.otherCarts.itemLists.length > 0 && state.otherCarts.itemLists.map((item) => (
-                <div key={item.id}>
-                    <h3>{item.name}</h3>
-                    <h5>{item.description}</h5>
-                    <h5>{item.itemType}</h5>
-                    <h5>Number of item: 1</h5>
-                    <h5>Price: <code>100</code></h5>
-                    <button onClick={() => deleteCartHandle(item.id)}>delete</button>
-                </div>
+                <Flexbox key={item.id}>
+                    <Box shadow="sh1">
+                        <BoxTitle>{item.name}</BoxTitle>
+                        <BoxText>{item.description}</BoxText>
+                        <BoxText>{item.itemType}</BoxText>
+                        <BoxText>Number of item: 1</BoxText>
+                        <BoxText>Price: <strong>{item.price}</strong> Points</BoxText>
+                        <Button onClick={() => deleteCartHandle(item.id)}>Remove from cart</Button>
+                    </Box>
+                </Flexbox>
             ))}
-        </div>
+            </Box>
+        </Container>
     )
 }
 

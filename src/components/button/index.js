@@ -10,7 +10,7 @@ const Button = ({
 }) => {
     return (
         <StyledButton 
-            color={color}
+            color={disabled ? 'default' : color}
             outline={outlined}
             onClick={() => onClick && onClick()}
             disabled={disabled}

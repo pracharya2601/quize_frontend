@@ -3,6 +3,12 @@ import {Link, useParams, useHistory} from 'react-router-dom';
 import Datacontext from 'context/data/data';
 import axios from 'axios';
 
+import Navbar from 'components/navbar';
+import Container from 'components/container';
+import { Box, BoxText, BoxTitle } from 'components/box';
+import Button from 'components/button';
+import Flexbox from 'components/flexbox';
+
 import {getpoinsthistory,clearpointhistory, error} from 'context/data/actionCreaters';
 
 const API = process.env.REACT_APP_API_ENDPOINT
@@ -43,27 +49,35 @@ const PointHistory = (props) => {
         return <h1>Loading...</h1>
     }
     return(
-        <div>
-            <Link to={'/dashboard'}>Back to Dashboard</Link>
-            <button onClick={() => history.push('/dashboard')}>Go to Dashboard</button>
-            <h1>{historySlug == 'earned' ? 'Your history of earning points Playing quize' : "Your purchased history"}</h1>
+        <Container>
+            <Navbar />
+            <Button onClick={() => history.push('/dashboard')}>{'<<'} Go to Dashboard</Button>
+            <Flexbox>
+                <BoxTitle>{historySlug == 'earned' ? 'Your history of earning points Playing quize' : "Your purchased history"}</BoxTitle>
+            </Flexbox>
                 {pointsHistory.lists.length > 0 ? pointsHistory.lists.map((item, index) => (
-                    <div key={item.id} style={{padding: '10px', border: '1px solid green', borderRadius: '10px', width: 'max-content'}}>
-                        <p>{index+1}</p>
-                        <h4>Points Earn: {item.point}</h4>
-                        <p>Status: {item.status === 'correct' ? "Correct Answer" : item.status}</p>
-                        <p>Date:{item.date}</p>
-                    </div>
+                    <Flexbox key={item.id}>
+                        <Box shadow="sh1">
+                            <BoxText>Points Earn: {item.point}</BoxText>
+                            <BoxText>Status: {item.status === 'correct' ? "Correct Answer" : item.status}</BoxText>
+                            <BoxText>Date:{item.date}</BoxText>
+                        </Box>
+                        <Box>
+                            Ads goes here
+                        </Box>
+                    </Flexbox>
                 )) : (
                     <h3>You dont have any history</h3>
                 )}
-             <button
+            <Flexbox>
+            <Button
                 onClick={handleNextPage}
                 disabled={state.pointsHistory.next ? false : true}
             >
                 Load more
-            </button>
-        </div>
+            </Button>
+            </Flexbox>
+        </Container>
     )
 }
 
